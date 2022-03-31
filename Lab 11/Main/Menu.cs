@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Library;
+using System.Diagnostics;
 
 namespace Lab_11
 {
@@ -18,6 +19,7 @@ namespace Lab_11
             var l3 = new List<Commodity>(0);
             var l4 = new List<Commodity>(0);
             var l5 = new List<Commodity>(0);
+            TestCollections test = new TestCollections();
             SortedDictionary<int, Commodity> d1 = new SortedDictionary<int, Commodity>();
             SortedDictionary<int, Commodity> d2 = new SortedDictionary<int, Commodity>();
             SortedDictionary<int, Commodity> d3 = new SortedDictionary<int, Commodity>();
@@ -25,9 +27,10 @@ namespace Lab_11
             SortedDictionary<int, Commodity> d5 = new SortedDictionary<int, Commodity>();
             var lCommoditys = new List<Commodity>();
             SortedDictionary<int, Commodity> dCommoditys = new SortedDictionary<int, Commodity>();
+            Stopwatch sWatch = new Stopwatch(); //Объект для измерения времени
             string buf, search;
-            int findKey = 0,  key = 0, lenght, extraL = 0, extraD = 0, n1 = 0, n2 = 0, n3 = 0, n4 = 0, remaininglength = 0, remainingNumber = 0, number, position, el;
-            bool contains = false, ok, createL = false, createD = false, sort = false; //create - проверка существования объекта
+            int bufNum, PlusLT = 0, PlusLS = 0, PlusDC = 0, PlusDS = 0, MinusLT = 0, MinusLS = 0, MinusDC = 0, MinusDS = 0, findKey = 0,  key = 0, lenght, extraL = 0, extraD = 0, n1 = 0, n2 = 0, n3 = 0, n4 = 0, remaininglength = 0, remainingNumber = 0, number, position, el;
+            bool contains = false, ok, createL = false, createD = false, createTC = false, sort = false; //create - проверка существования объекта
             int v;
             Console.WriteLine("Приветствуем в приложении для работы с коллекциями!");
             do
@@ -1454,7 +1457,7 @@ namespace Lab_11
                         }
                         break;
                     #endregion
-                    //Просмотреть разницу между словарем созданным с помощью коструктора, клонированным и поверхностно скопированным
+                    //Просмотреть разницу между словарем созданным с помощью конструктора, клонированным и поверхностно скопированным
                     #region case24
                     case 24:
                         SortedDictionary<int, Toy>  toysDictionary = new SortedDictionary<int, Toy>();
@@ -1774,55 +1777,337 @@ namespace Lab_11
                         }
                         break;
                     #endregion
+                    //
+                    //
+                    //
                     //Создать объект TestCollections
                     #region case30 
                     case 30:
+                        createTC = true;
+                        test = new TestCollections(1000);
+                        Console.WriteLine("Созданы новые коллекции с 1000 идентичных элементов");
                         break;
                     #endregion
                     //Удалить элементы из List<Toy>
                     #region case31
                     case 31:
-                        break;
+                        if (createTC == false)
+                        {
+                            Console.WriteLine("Коллекции еще не созданы");
+                            break;
+                        }
+                        else
+                        {
+                            bufNum = test.TestL1.Count;
+                            test.ListDeleteToy(test);
+                            MinusLT += bufNum - test.TestL1.Count;
+                            break;
+                        }
                     #endregion
                     //Удалить элементы из List<string>
                     #region case32
                     case 32:
-                        break;
+                        if (createTC == false)
+                        {
+                            Console.WriteLine("Коллекции еще не созданы");
+                            break;
+                        }
+                        else
+                        {
+                            bufNum = test.TestL2.Count;
+                            test.ListDeleteString(test);
+                            MinusLS += bufNum - test.TestL2.Count;
+                            break;
+                        }
                     #endregion
                     //Удалить элементы из SortedDictionary<Commodity, Toy>
                     #region case33
                     case 33:
-                        break;
+                        if (createTC == false)
+                        {
+                            Console.WriteLine("Коллекции еще не созданы");
+                            break;
+                        }
+                        else
+                        {
+                            bufNum = test.TestD1.Count;
+                            test = test.DictDeleteToy(test);
+                            MinusDC += bufNum - test.TestD1.Count;
+                            break;
+                        }
                     #endregion
                     //Удалить элементы из SortedDictionary<string, Toy>
                     #region case34
                     case 34:
-                        break;
+                        if (createTC == false)
+                        {
+                            Console.WriteLine("Коллекции еще не созданы");
+                            break;
+                        }
+                        else
+                        {
+                            bufNum = test.TestD2.Count;
+                            test = test.DictDeleteString(test);
+                            MinusDS += bufNum - test.TestD2.Count;
+                            break;
+                        }
                     #endregion
                     //Добавить элементы в List<Toy>
                     #region case35
                     case 35:
-                        break;
+                        if (createTC == false)
+                        {
+                            Console.WriteLine("Коллекции еще не созданы");
+                            break;
+                        }
+                        else
+                        {
+                            bufNum = test.TestL1.Count;
+                            test = test.ListAddToy(test);
+                            PlusLT += test.TestL1.Count - bufNum;
+                            break;
+                        }
                     #endregion
                     //Добавить элементы в List<string>
                     #region case36
                     case 36:
-                        break;
+                        if (createTC == false)
+                        {
+                            Console.WriteLine("Коллекции еще не созданы");
+                            break;
+                        }
+                        else
+                        {
+                            bufNum = test.TestL2.Count;
+                            test = test.ListAddString(test);
+                            PlusLS += test.TestL2.Count - bufNum;
+                            break;
+                        }
                     #endregion
                     //Добавить элементы в SortedDictionary<Commodity, Toy>
                     #region case37
                     case 37:
-                        break;
+                        if (createTC == false)
+                        {
+                            Console.WriteLine("Коллекции еще не созданы");
+                            break;
+                        }
+                        else
+                        {
+                            bufNum = test.TestD1.Count;
+                            test = test.DictAddToy(test);
+                            PlusDC += test.TestD1.Count - bufNum;
+                            break;
+                        }
                     #endregion
                     //Добавить элементы в SortedDictionary<string, Toy>
                     #region case38
                     case 38:
-                        break;
+                        if (createTC == false)
+                        {
+                            Console.WriteLine("Коллекции еще не созданы");
+                            break;
+                        }
+                        else
+                        {
+                            bufNum = test.TestD2.Count;
+                            test = test.DictAddString(test);
+                            PlusDS += test.TestD2.Count - bufNum;
+                            break;
+                        }
                     #endregion
                     //Показать время поиска первого, центрального, последнего и элемента, не входящего в коллекции
                     #region case39
                     case 39:
-                        break;
+                        if (createTC == false)
+                        {
+                            Console.WriteLine("Коллекции еще не созданы");
+                            break;
+                        }
+                        else
+                        {
+                            //Поиск в List<Toy>
+                            //
+                            Console.WriteLine("\nРезультаты поиска в List<Toy>:\n");
+                            //Первый элемент
+                            Toy searchLTF = new Toy();
+                            searchLTF = test.TestL1[0];
+                            sWatch.Start();
+                            contains = test.TestL1.Contains(searchLTF);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска первого элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Центральный элемент
+                            Toy searchLTM = new Toy();
+                            searchLTM = test.TestL1[499 + ((PlusLT - MinusLT)/2)];
+                            sWatch.Start();
+                            contains = test.TestL1.Contains(searchLTM);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска центрального элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Последний элемент
+                            Toy searchLTL = new Toy();
+                            searchLTL = test.TestL1[999 + PlusLT - MinusLT];
+                            sWatch.Start();
+                            contains = test.TestL1.Contains(searchLTL);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска последнего элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Не входящего в коллекцию элемент
+                            Toy searchLTMiss = new Toy(300, 250, "Ткань", "Останкино", "Фредди", "Пять ночей", 1536);
+                            sWatch.Start();
+                            contains = test.TestL1.Contains(searchLTMiss);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска отсутствующего элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Поиск в List<string>
+                            //
+                            Console.WriteLine("\nРезультаты поиска в List<string>:\n");
+                            //Первый элемент
+                            string searchLSF;
+                            searchLSF = test.TestL2[0];
+                            sWatch.Start();
+                            contains = test.TestL2.Contains(searchLSF);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска первого элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Центральный элемент
+                            string searchLSM;
+                            searchLSM = test.TestL2[499 + ((PlusLS - MinusLS) / 2)];
+                            sWatch.Start();
+                            contains = test.TestL2.Contains(searchLSM);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска центрального элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Последний элемент
+                            string searchLSL;
+                            searchLSL = test.TestL2[999 + PlusLS - MinusLS];
+                            sWatch.Start();
+                            contains = test.TestL2.Contains(searchLSL);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска последнего элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Не входящего в коллекцию элемент
+                            string searchLSMiss = "300, 250, Ткань, Останкино, Фредди, Пять ночей, 1536";
+                            sWatch.Start();
+                            contains = test.TestL2.Contains(searchLSMiss);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска отсутствующего элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Поиск в SortedDictionary<Commodity, Toy> по ключу с помощью метода ContainsKey
+                            //
+                            Console.WriteLine("\nРезультаты поиска в SortedDictionary<Commodity, Toy> по ключу с помощью метода ContainsKey:\n");
+                            //Первый элемент
+                            Commodity searchKeyCF = test.TestD1.Keys.ElementAt(0);
+                            sWatch.Start();
+                            contains = test.TestD1.ContainsKey(searchKeyCF);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска первого элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Центральный элемент
+                            Commodity searchKeyCM = test.TestD1.Keys.ElementAt(499 + ((PlusDC - MinusDC) / 2));
+                            sWatch.Start();
+                            contains = test.TestD1.ContainsKey(searchKeyCM);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска центрального элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Последний элемент
+                            Commodity searchKeyCL = test.TestD1.Keys.ElementAt(999 + PlusDC - MinusDC);
+                            sWatch.Start();
+                            contains = test.TestD1.ContainsKey(searchKeyCL);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска последнего элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Не входящего в коллекцию элемент
+                            Commodity searchKeyCMiss = new Commodity(99999, 99999);
+                            sWatch.Start();
+                            contains = test.TestD1.ContainsKey(searchKeyCMiss);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска отсутствующего элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Поиск в SortedDictionary<string, Toy> по ключу с помощью метода ContainsKey
+                            //
+                            Console.WriteLine("\nРезультаты поиска в SortedDictionary<string, Toy> по ключу с помощью метода ContainsKey:\n");
+                            //Первый элемент
+                            string searchKeySF = test.TestD2.Keys.ElementAt(0);
+                            sWatch.Start();
+                            contains = test.TestD2.ContainsKey(searchKeySF);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска первого элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Центральный элемент
+                            string searchKeySM = test.TestD2.Keys.ElementAt(499 + ((PlusDS - MinusDS) / 2));
+                            sWatch.Start();
+                            contains = test.TestD2.ContainsKey(searchKeySM);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска центрального элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Последний элемент
+                            string searchKeySL = test.TestD2.Keys.ElementAt(999 + PlusDS - MinusDS);
+                            sWatch.Start();
+                            contains = test.TestD2.ContainsKey(searchKeySL);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска последнего элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Не входящего в коллекцию элемент
+                            string searchKeySMiss = "99999, 99999";
+                            sWatch.Start();
+                            contains = test.TestD2.ContainsKey(searchKeySMiss);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска отсутствующего элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Поиск в SortedDictionary<Commodity, Toy> по значению элемента с помощью метода ContainsValue
+                            //
+                            Console.WriteLine("\nРезультаты поиска в SortedDictionary<Commodity, Toy> по значению элемента с помощью метода ContainsValue:\n");
+                            //Первый элемент
+                            Toy searchElementF = test.TestD1.Values.ElementAt(0);
+                            sWatch.Start();
+                            contains = test.TestD1.ContainsValue(searchElementF);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска первого элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Центральный элемент
+                            Toy searchElementM = test.TestD1.Values.ElementAt(499 + ((PlusDC - MinusDC) / 2));
+                            sWatch.Start();
+                            contains = test.TestD1.ContainsValue(searchElementM);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска центрального элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Последний элемент
+                            Toy searchElementL = test.TestD1.Values.ElementAt(999 + PlusDC - MinusDC);
+                            sWatch.Start();
+                            contains = test.TestD1.ContainsValue(searchElementL);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска последнего элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+
+                            //Не входящего в коллекцию элемент
+                            Toy searchElementMiss = new Toy(300, 250, "Ткань", "Останкино", "Фредди", "Пять ночей", 1536);
+                            sWatch.Start();
+                            contains = test.TestD1.ContainsValue(searchElementMiss);
+                            sWatch.Stop();
+                            Console.WriteLine("Время поиска отсутствующего элемента: " + sWatch.ElapsedTicks + ". Элемент найден: " + contains);
+                            sWatch.Reset();
+                            break;
+                        }
                     #endregion
                     //Выход
                     #region case40
